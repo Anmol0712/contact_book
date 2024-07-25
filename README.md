@@ -1,4 +1,4 @@
-# contact_book
+# Contact Book
 
 This is a simple Contact Book application built with Python using Tkinter for the graphical user interface and MySQL for the database. The application allows users to register, login, create, view, edit, and delete their own contacts. This is my first project and serves as an introduction to GUI programming and database integration.
 
