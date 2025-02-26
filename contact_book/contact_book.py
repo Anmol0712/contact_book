@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import mysql.connector as mysql
 
 # Establishing the connection from my sql database
-conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
 c = conn.cursor()
 
 # Creating 'contacts' table if it doesn't exist
@@ -92,7 +92,7 @@ def register_page():
             messagebox.showwarning("Input Error", "Passwords do not match!")
             return
 
-        conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+        conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
         c = conn.cursor()
         try:
             c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
@@ -133,7 +133,7 @@ def login_page():
         password = password_entry.get()
        
         # Fecthing username and password from the database 
-        conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+        conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
         c = conn.cursor()
         c.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
         result = c.fetchone()
@@ -207,7 +207,7 @@ def create_page():
             return
 
         # Inserting data into MySQL database
-        conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+        conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
         c = conn.cursor()
         lname = lname_entry.get().strip()
         address = address_entry.get("1.0", "end-1c").strip()
@@ -253,7 +253,7 @@ def view_page():
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     
     # Fetching data from MySQL and populating treeview
-    conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+    conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
     c = conn.cursor()
     c.execute("SELECT CONCAT(first_name, ' ', surname) AS name, phone, address, email FROM contacts")
     rows = c.fetchall()
@@ -306,7 +306,7 @@ def edit_page():
 
             confirm = messagebox.askyesno("Confirmation", "Are you sure you want to update this contact?")
             if confirm:
-                conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+                conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
                 c = conn.cursor()
         
                 # Fetching selected contact details and displaying in entry fields
@@ -344,7 +344,7 @@ def edit_page():
     tree.configure(yscroll=scrollbar.set)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-    conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+    conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
     c = conn.cursor()
     c.execute("SELECT CONCAT(first_name, ' ', surname) AS name, phone, address, email FROM contacts")     # Fetching the data from database
     rows = c.fetchall()
@@ -363,7 +363,7 @@ def edit_page():
             new_phone = phone_entry.get()
             new_address = address_entry.get("1.0", "end-1c")
             new_email = email_entry.get()
-            conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+            conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
             c = conn.cursor()
 
             # Query to update data in the database
@@ -410,7 +410,7 @@ def delete_page():
     tree.configure(yscroll=scrollbar.set)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     
-    conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+    conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
     c = conn.cursor()
     c.execute("SELECT CONCAT(first_name, ' ', surname) AS name, phone, address, email FROM contacts")
     rows = c.fetchall()
@@ -430,7 +430,7 @@ def delete_page():
             # Confirmation for deleting the desired contacts
             confirm = messagebox.askyesno("Confirmation", "Are you sure you want to delete this contact?")
             if confirm:
-                conn = mysql.connect(host='localhost', user='root', password='anmol', database='contact_book')
+                conn = mysql.connect(host='localhost', user='root', password='your_password', database='contact_book')
                 c = conn.cursor()
                 c.execute("DELETE FROM contacts WHERE CONCAT(first_name, ' ', surname) = %s", (contact_name,))
                 conn.commit()
@@ -456,37 +456,6 @@ def about_page():
 
     description = tk.Label(about_frame, text="This is a Contact Book App developed using Python and Tkinter.", font=("Bold", 15))
     description.pack(pady=10)
-
-
-    # Adding first photo with roll number
-    photo1 = Image.open("anmol.jpg")
-    photo1 = photo1.resize((200, 200), Image.LANCZOS)
-    photo1 = ImageTk.PhotoImage(photo1)
-    photo_label1 = tk.Label(main_frame, image=photo1)
-    photo_label1.image = photo1  # Keep a reference to avoid garbage collection
-    photo_label1.place(x=250,y=170)
-
-    name1 = tk.Label(main_frame, text="Name: Anmol Kumar", font=("Bold", 15))
-    name1.place(x=245,y=390)
-    roll_number1 = tk.Label(main_frame, text="Roll No: 2201320100036", font=("Bold", 15))
-    roll_number1.place(x=245,y=430)
-
-    # Adding second photo with roll number
-    photo2 = Image.open("aryan.jpg")
-    photo2 = photo2.resize((200, 200), Image.LANCZOS)
-    photo2 = ImageTk.PhotoImage(photo2)
-    photo_label2 = tk.Label(main_frame, image=photo2)
-    photo_label2.image = photo2  # Keep a reference to avoid garbage collection
-    photo_label2.place(x=550,y=170)
-
-    name2 = tk.Label(main_frame, text="Name: Aryan Katiyar", font=("Bold", 15))
-    name2.place(x=545,y=390)
-    roll_number2 = tk.Label(main_frame, text="Roll No: 2201320100045", font=("Bold", 15))
-    roll_number2.place(x=545,y=430)
-
-    
-    dept = tk.Label(main_frame, text="Department of Computer Science & Engineering", font=("Bold", 20))
-    dept.place(x=210,y=500)
 
     about_frame.pack(pady=20)
 
